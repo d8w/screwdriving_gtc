@@ -1,0 +1,11 @@
+#@data input:dataset.sevt output:"dataset.bin"
+
+$ALL = echo "#.*"
+$SEQUENCE = filter $ALL "sequence"
+
+$BEGIN = eq $SEQUENCE =1
+$BEGIN = rename $BEGIN begin
+$OUTPUT += echo $BEGIN
+
+$OUTPUT += echo $ALL
+saveBufferedBin $OUTPUT file:%output

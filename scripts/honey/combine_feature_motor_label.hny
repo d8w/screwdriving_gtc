@@ -1,0 +1,13 @@
+#@data input:"/tmp/tmp.vKfvVJv9zU/ft.bin;/tmp/tmp.vKfvVJv9zU/motor.bin" output:"sd_0_0_1456794424.bin" extension:"bin"
+
+$all = echo #.*
+
+$limit = filter $all "label:event\.end_of_annotation"
+$limit = delay $limit 0.001
+
+#$all = passIf $all "arg1,0.5,<" arg1:$limit
+$all = passIfState $all gate:$limit reverse:true
+
+$output = echo $all
+
+saveBufferedBin $output file:%output

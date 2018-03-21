@@ -1,0 +1,22 @@
+# @data input:"raw/ft/sd_0_0_1456794424.csv" output:"processed/ft/sd_0_0_1456794424.bin" 
+
+$all = echo #.*
+
+$mf = movingFeatures $all 0.1 output:mean,sd,range
+$mf += movingFeatures $all 0.2 output:mean,sd,range
+$mf += movingFeatures $all 0.3 output:mean,sd,range
+
+$peaks += peak $all 0.5
+$peaks += peak $mf 0.5
+$peaks += peak $all 0.3
+$peaks += peak $mf 0.3
+
+$mf = skip $mf 0.02 noTail:true
+$all = skip $all 0.01 noTail:true
+
+$output = echo $all
+$output += echo $mf
+$output += echo $peaks
+
+saveBufferedBin $output file:%output
+
